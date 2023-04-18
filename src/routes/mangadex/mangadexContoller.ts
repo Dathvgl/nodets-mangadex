@@ -35,15 +35,23 @@ export abstract class MangadexModel {
   static async getManga(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { sort } = req.query;
+      const response = await axios.get(`${baseUrl}/manga/${id}`);
+      res.json(response.data);
+    } catch {
+      res.status(500).json({});
+    }
+  }
 
-      const manga = (await axios.get(`${baseUrl}/manga/${id}`)).data;
-      const chapters = (
-        await axios.get(`${baseUrl}/manga/${id}/feed`, {
-          params: { order: { volume: sort, chapter: sort } },
-        })
-      ).data;
-      res.json({ manga, chapters });
+  static async getMangaChapter(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { limit, offset, sort } = req.query;
+
+      const response = await axios.get(`${baseUrl}/manga/${id}/feed`, {
+        params: { limit, offset, order: { volume: sort, chapter: sort } },
+      });
+
+      res.json(response.data);
     } catch {
       res.status(500).json({});
     }
