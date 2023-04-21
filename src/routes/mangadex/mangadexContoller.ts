@@ -8,12 +8,11 @@ export abstract class MangadexModel {
   static async getHome(req: Request, res: Response) {
     try {
       const newsChapter = (await axios.get(`${baseUrl}/manga`)).data;
-      const popularManga = { result: "error" };
-      // const popularManga = (
-      //   await axios.get(`${baseUrl}/manga`, {
-      //     params: { order: { year: "desc", followedCount: "desc" } },
-      //   })
-      // ).data;
+      const popularManga = (
+        await axios.get(`${baseUrl}/manga`, {
+          params: { order: { year: "desc", followedCount: "desc" } },
+        })
+      ).data;
       res.json({ popularManga, newsChapter });
     } catch {
       res.status(500).json({});
@@ -25,6 +24,18 @@ export abstract class MangadexModel {
       const { title } = req.query;
       const response = await axios.get(`${baseUrl}/manga`, {
         params: { title },
+      });
+      res.json(response.data);
+    } catch {
+      res.status(500).json({});
+    }
+  }
+
+  static async getAdSearch(req: Request, res: Response) {
+    try {
+      const { query } = req.query;
+      const response = await axios.get(`${baseUrl}/manga`, {
+        params: JSON.parse(query as string),
       });
       res.json(response.data);
     } catch {
@@ -123,6 +134,15 @@ export abstract class MangadexModel {
       } else {
         res.status(500).json({});
       }
+    } catch {
+      res.status(500).json({});
+    }
+  }
+
+  static async getTag(req: Request, res: Response) {
+    try {
+      const response = await axios.get(`${baseUrl}/manga/tag`);
+      res.json(response.data);
     } catch {
       res.status(500).json({});
     }
