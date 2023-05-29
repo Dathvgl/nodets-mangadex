@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Request, Response } from "express";
-import { ImageResponseMangadex } from "../../types";
+import { ImageResponseMangadex, ReCaptchaResponse } from "../../types";
 
 const baseUrl = "https://api.mangadex.org";
 
@@ -19,19 +19,7 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getSearch(req: Request, res: Response) {
-    try {
-      const { title } = req.query;
-      const response = await axios.get(`${baseUrl}/manga`, {
-        params: { title },
-      });
-      res.json(response.data);
-    } catch {
-      res.status(500).json({});
-    }
-  }
-
-  static async getAdSearch(req: Request, res: Response) {
+  static async getMangaSearch(req: Request, res: Response) {
     try {
       const { query } = req.query;
       const response = await axios.get(`${baseUrl}/manga`, {
@@ -53,21 +41,6 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getMangaChapter(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const { limit, offset, sort } = req.query;
-
-      const response = await axios.get(`${baseUrl}/manga/${id}/feed`, {
-        params: { limit, offset, order: { volume: sort, chapter: sort } },
-      });
-
-      res.json(response.data);
-    } catch {
-      res.status(500).json({});
-    }
-  }
-
   static async getCover(req: Request, res: Response) {
     try {
       const { id } = req.params;
@@ -78,22 +51,12 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getFeed(req: Request, res: Response) {
+  static async getMangaFeed(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const response = await axios.get(`${baseUrl}/manga/${id}/feed`);
-      res.json(response.data);
-    } catch {
-      res.status(500).json({});
-    }
-  }
-
-  static async getChapter(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const { limit } = req.query;
+      const { query } = req.query;
       const response = await axios.get(`${baseUrl}/manga/${id}/feed`, {
-        params: { limit, order: { updatedAt: "desc" } },
+        params: JSON.parse(query as string),
       });
       res.json(response.data);
     } catch {
@@ -101,7 +64,7 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getChapterAll(req: Request, res: Response) {
+  static async getMangaAggregate(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const { lang } = req.query;
@@ -114,7 +77,7 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getImageAll(req: Request, res: Response) {
+  static async getImage(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const data: ImageResponseMangadex = (
@@ -139,12 +102,30 @@ export abstract class MangadexModel {
     }
   }
 
-  static async getTag(req: Request, res: Response) {
+  static async getMangaTag(req: Request, res: Response) {
     try {
       const response = await axios.get(`${baseUrl}/manga/tag`);
       res.json(response.data);
     } catch {
       res.status(500).json({});
+    }
+  }
+
+  static async postAuth(req: Request, res: Response) {
+    try {
+      // const response = await axios.post(`${baseUrl}/auth/login`, {
+      //   username: "fsfssfssfsfsfs",
+      //   password: "abc123456789",
+      // });
+      const response = await axios.post(`${baseUrl}/account/create`, {
+        username: "fsfssfssfsfsfs",
+        password: "abc123456789",
+        email: "vnhthvgl@gmail.com",
+      });
+    } catch (e) {
+      const error = e as AxiosError;
+      console.log(error.response?.data);
+      res.status(500).send("Error verifying reCAPTCHA");
     }
   }
 }

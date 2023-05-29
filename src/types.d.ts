@@ -10,3 +10,9 @@ export type ImageResponseMangadex = ResultMangadex & {
     dataSaver?: string[];
   };
 };
+
+export type ReCaptchaResponse = {
+  success: boolean;
+  challenge_ts: string;
+  hostname: string;
+};
