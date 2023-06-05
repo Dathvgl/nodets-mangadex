@@ -1,6 +1,8 @@
 ### Server lấy api của mangadex api
 Mangadex api cung cấp nhiều route api khác nhau nên phải chia thành các route để Front-end lấy được một số thứ cần thiết.
 
+Bắt đầu với mongoDB và setup auth với mongoDB
+
 ```C
 api/mangadex/home
 ```

@@ -1,16 +1,15 @@
 import { Router } from "express";
-import { MangadexModel } from "./mangadexContoller";
+import { MangadexController } from "./mangadexContoller";
 
 const router = Router();
 
-router.get("/home", MangadexModel.getHome);
-router.get("/manga/:id", MangadexModel.getManga);
-router.get("/mangaTag", MangadexModel.getMangaTag);
-router.get("/mangaSearch", MangadexModel.getMangaSearch);
-router.get("/mangaFeed/:id", MangadexModel.getMangaFeed);
-router.get("/mangaAggregate/:id", MangadexModel.getMangaAggregate);
-router.get("/cover/:id", MangadexModel.getCover);
-router.get("/image/:id", MangadexModel.getImage);
-router.post("/auth", MangadexModel.postAuth);
+router.get("/home", MangadexController.getHome);
+router.get("/manga/:id", MangadexController.getManga);
+router.get("/mangaTag", MangadexController.getMangaTag);
+router.get("/mangaSearch", MangadexController.getMangaSearch);
+router.get("/mangaFeed/:id", MangadexController.getMangaFeed);
+router.get("/mangaAggregate/:id", MangadexController.getMangaAggregate);
+router.get("/cover/:id", MangadexController.getCover);
+router.get("/image/:id", MangadexController.getImage);
 
 export default router;

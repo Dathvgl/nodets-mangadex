@@ -1,3 +1,6 @@
+import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
+
 export type ResultMangadex = {
   result?: "ok" | "error";
 };
@@ -15,4 +18,18 @@ export type ReCaptchaResponse = {
   success: boolean;
   challenge_ts: string;
   hostname: string;
+};
+
+export type JwtPayloadExtra = JwtPayload & {
+  userId: string;
+};
+
+export type RequestExtra = Request & {
+  user?: UserMongo | null;
+};
+
+export type UserMongo = {
+  _id: string;
+  email: string;
+  password: string;
 };

@@ -1,10 +1,10 @@
 import axios, { AxiosError } from "axios";
 import { Request, Response } from "express";
-import { ImageResponseMangadex, ReCaptchaResponse } from "../../types";
+import { ImageResponseMangadex } from "types";
 
 const baseUrl = "https://api.mangadex.org";
 
-export abstract class MangadexModel {
+export abstract class MangadexController {
   static async getHome(req: Request, res: Response) {
     try {
       const newsChapter = (await axios.get(`${baseUrl}/manga`)).data;
@@ -108,24 +108,6 @@ export abstract class MangadexModel {
       res.json(response.data);
     } catch {
       res.status(500).json({});
-    }
-  }
-
-  static async postAuth(req: Request, res: Response) {
-    try {
-      // const response = await axios.post(`${baseUrl}/auth/login`, {
-      //   username: "fsfssfssfsfsfs",
-      //   password: "abc123456789",
-      // });
-      const response = await axios.post(`${baseUrl}/account/create`, {
-        username: "fsfssfssfsfsfs",
-        password: "abc123456789",
-        email: "vnhthvgl@gmail.com",
-      });
-    } catch (e) {
-      const error = e as AxiosError;
-      console.log(error.response?.data);
-      res.status(500).send("Error verifying reCAPTCHA");
     }
   }
 }
