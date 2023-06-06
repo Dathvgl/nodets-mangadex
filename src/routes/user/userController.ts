@@ -82,7 +82,7 @@ export abstract class UserController {
       res.status(200).json(req.user);
     } catch (error) {
       console.log(error);
-      res.status(404).json({ message: "User not found" });
+      res.status(404).send("User not found");
     }
   }
 
@@ -104,7 +104,7 @@ export abstract class UserController {
       res.status(200).json(user);
     } catch (error) {
       console.log(error);
-      res.status(404).json({ message: "User not found" });
+      res.status(404).send("User not found");
     }
   }
 }
