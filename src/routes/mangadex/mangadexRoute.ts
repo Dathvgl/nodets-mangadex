@@ -11,5 +11,7 @@ router.get("/mangaFeed/:id", MangadexController.getMangaFeed);
 router.get("/mangaAggregate/:id", MangadexController.getMangaAggregate);
 router.get("/cover/:id", MangadexController.getCover);
 router.get("/image/:id", MangadexController.getImage);
+router.get("/group/:id", MangadexController.getGroup);
+router.get("/user/:id", MangadexController.getUser);
 
 export default router;

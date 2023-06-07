@@ -110,4 +110,24 @@ export abstract class MangadexController {
       res.status(500).json({});
     }
   }
+
+  static async getGroup(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const response = await axios.get(`${baseUrl}/group/${id}`);
+      res.json(response.data);
+    } catch {
+      res.status(500).json({});
+    }
+  }
+
+  static async getUser(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const response = await axios.get(`${baseUrl}/user/${id}`);
+      res.json(response.data);
+    } catch {
+      res.status(500).json({});
+    }
+  }
 }
