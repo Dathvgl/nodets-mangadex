@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Request, Response } from "express";
 import { ImageResponseMangadex } from "types";
 
@@ -105,6 +105,15 @@ export abstract class MangadexController {
   static async getMangaTag(req: Request, res: Response) {
     try {
       const response = await axios.get(`${baseUrl}/manga/tag`);
+      res.json(response.data);
+    } catch {
+      res.status(500).json({});
+    }
+  }
+
+  static async getMangaRandom(req: Request, res: Response) {
+    try {
+      const response = await axios.get(`${baseUrl}/manga/random`);
       res.json(response.data);
     } catch {
       res.status(500).json({});
